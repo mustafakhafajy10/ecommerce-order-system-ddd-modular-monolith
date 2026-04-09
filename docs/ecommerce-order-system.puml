@@ -1,0 +1,75 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "Order (Core)" {
+  class OrderAggregateRoot <<Aggregate Root>> {
+    id: UUID
+    customerId: UUID
+    totalAmount: BigDecimal
+    status: OrderStatus
+  }
+
+  class OrderItem {
+    id: UUID
+    productId: UUID
+    quantity: int
+    unitPrice: BigDecimal
+  }
+}
+
+package "Customer" {
+  class Customer <<Aggregate Root>> {
+    id: UUID
+    name: String
+    email: Email
+  }
+
+  class Email <<Value Object>>
+}
+
+package "Product" {
+  class Product <<Aggregate Root>> {
+    id: UUID
+    name: String
+    price: Money
+  }
+
+  class Money <<Value Object>>
+}
+
+package "Inventory" {
+  class InventoryItem <<Aggregate Root>> {
+    id: UUID
+    productId: UUID
+    quantity: int
+  }
+}
+
+OrderAggregateRoot "1" *-- "*" OrderItem
+OrderAggregateRoot ..> Customer : validates customerId
+OrderItem ..> Product : validates productId
+OrderItem ..> InventoryItem : reserves stock
+
+note right of OrderAggregateRoot
+  Invariants:
+  - at least one item
+  - totalAmount > 0
+end note
+
+note right of Customer
+  Invariants:
+  - valid email
+  - email unique
+end note
+
+note right of Product
+  Invariants:
+  - name not blank
+  - price > 0
+end note
+
+note right of InventoryItem
+  Invariants:
+  - quantity >= 0
+end note
+@enduml

@@ -1,0 +1,39 @@
+services:
+  ecommerce-postgres:
+    image: postgres:18.3
+    container_name: ecommerce-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: ecommerce
+      POSTGRES_PASSWORD: ecommerce
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ecommerce_pg18_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecommerce -d ecommerce_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  ecommerce-app:
+    image: ecommerce-order-system:1.0
+    build:
+      context: .
+    container_name: ecommerce-app
+    depends_on:
+      ecommerce-postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: pg
+      POSTGRES_HOST: ecommerce-postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: ecommerce
+      POSTGRES_PASSWORD: ecommerce
+
+volumes:
+  ecommerce_pg18_data:
