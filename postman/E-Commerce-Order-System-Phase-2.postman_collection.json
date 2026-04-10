@@ -1,6 +1,5 @@
 {
   "info": {
-    "_postman_id": "6f763e36-9ab3-4db7-96d6-5fa8cf166a10",
     "name": "E-Commerce Order System - Phase 2",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Ready-to-run Postman collection for the E-Commerce Order System modular monolith."
@@ -27,425 +26,303 @@
       "value": "55555555-5555-5555-5555-555555555555"
     },
     {
-      "key": "inventoryItemId",
-      "value": "66666666-6666-6666-6666-666666666666"
-    },
-    {
       "key": "orderId",
       "value": ""
     }
   ],
   "item": [
     {
-      "name": "Customers",
-      "item": [
+      "name": "List Customers",
+      "event": [
         {
-          "name": "List Customers",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Customers array returned\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(Array.isArray(data)).to.eql(true);",
-                  "    pm.expect(data.length).to.be.greaterThan(0);",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/customers",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "customers"
-              ]
-            }
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Customers returned\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(Array.isArray(data)).to.eql(true);",
+              "  pm.expect(data.length).to.be.greaterThan(0);",
+              "});"
+            ],
+            "type": "text/javascript"
           }
         }
-      ]
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/customers"
+      }
     },
     {
-      "name": "Products",
-      "item": [
+      "name": "List Products",
+      "event": [
         {
-          "name": "List Products",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Products array returned\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(Array.isArray(data)).to.eql(true);",
-                  "    pm.expect(data.length).to.be.greaterThan(0);",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/products",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "products"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Create Product - Validation Error (400)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 400\", function () {",
-                  "    pm.response.to.have.status(400);",
-                  "});",
-                  "",
-                  "pm.test(\"Validation message includes price\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(data.message).to.eql(\"Validation failed\");",
-                  "    pm.expect(data.details.price).to.exist;",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Products returned\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(Array.isArray(data)).to.eql(true);",
+              "  pm.expect(data.length).to.be.greaterThan(0);",
+              "});"
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Bad Product\",\n  \"price\": 0\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/products",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "products"
-              ]
-            }
+            "type": "text/javascript"
           }
         }
-      ]
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products"
+      }
     },
     {
-      "name": "Inventory",
-      "item": [
+      "name": "List Inventory Items",
+      "event": [
         {
-          "name": "List Inventory Items",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Inventory array returned\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(Array.isArray(data)).to.eql(true);",
-                  "    pm.expect(data.length).to.be.greaterThan(0);",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/inventory-items",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "inventory-items"
-              ]
-            }
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Inventory returned\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(Array.isArray(data)).to.eql(true);",
+              "  pm.expect(data.length).to.be.greaterThan(0);",
+              "});"
+            ],
+            "type": "text/javascript"
           }
         }
-      ]
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/inventory-items"
+      }
     },
     {
-      "name": "Orders",
-      "item": [
+      "name": "List Orders",
+      "event": [
         {
-          "name": "List Orders",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Order collection has HATEOAS links\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(data._links).to.exist;",
-                  "    pm.expect(data._links.self).to.exist;",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/orders",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "orders"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Create Order",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 201\", function () {",
-                  "    pm.response.to.have.status(201);",
-                  "});",
-                  "",
-                  "const data = pm.response.json();",
-                  "pm.collectionVariables.set(\"orderId\", data.id);",
-                  "",
-                  "pm.test(\"Order response contains HATEOAS links\", function () {",
-                  "    pm.expect(data._links).to.exist;",
-                  "    pm.expect(data._links.self).to.exist;",
-                  "    pm.expect(data._links.collection).to.exist;",
-                  "});",
-                  "",
-                  "pm.test(\"Order contains aggregated customer and items\", function () {",
-                  "    pm.expect(data.customer).to.exist;",
-                  "    pm.expect(data.customer.id).to.eql(pm.collectionVariables.get(\"customerId\"));",
-                  "    pm.expect(data.items.length).to.be.greaterThan(0);",
-                  "    pm.expect(data.items[0].productName).to.exist;",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"HATEOAS links returned\", function () {",
+              "  const data = pm.response.json();",
+              "  pm.expect(data._links).to.exist;",
+              "});"
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId1}}\",\n      \"quantity\": 1\n    },\n    {\n      \"productId\": \"{{productId2}}\",\n      \"quantity\": 2\n    }\n  ]\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/orders",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "orders"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Created Order By Id",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (!pm.collectionVariables.get(\"orderId\")) {",
-                  "    throw new Error(\"orderId is not set. Run 'Create Order' first.\");",
-                  "}"
-                ]
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Fetched order matches saved orderId\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(data.id).to.eql(pm.collectionVariables.get(\"orderId\"));",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "orders",
-                "{{orderId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Update Order Status",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (!pm.collectionVariables.get(\"orderId\")) {",
-                  "    throw new Error(\"orderId is not set. Run 'Create Order' first.\");",
-                  "}"
-                ]
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Order status updated to SHIPPED\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(data.status).to.eql(\"SHIPPED\");",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"status\": \"SHIPPED\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/orders/{{orderId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "orders",
-                "{{orderId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Create Order - Conflict Error (409)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status is 409\", function () {",
-                  "    pm.response.to.have.status(409);",
-                  "});",
-                  "",
-                  "pm.test(\"Conflict message returned\", function () {",
-                  "    const data = pm.response.json();",
-                  "    pm.expect(data.error).to.eql(\"Conflict\");",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{conflictProductId}}\",\n      \"quantity\": 100\n    }\n  ]\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/orders",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "orders"
-              ]
-            }
+            "type": "text/javascript"
           }
         }
-      ]
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/orders"
+      }
+    },
+    {
+      "name": "Create Order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 201\", function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set(\"orderId\", data.id);",
+              "pm.test(\"Order has links\", function () {",
+              "  pm.expect(data._links).to.exist;",
+              "  pm.expect(data._links.self).to.exist;",
+              "  pm.expect(data._links.collection).to.exist;",
+              "});",
+              "pm.test(\"Order has aggregated data\", function () {",
+              "  pm.expect(data.customer).to.exist;",
+              "  pm.expect(data.items.length).to.be.greaterThan(0);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId1}}\",\n      \"quantity\": 1\n    },\n    {\n      \"productId\": \"{{productId2}}\",\n      \"quantity\": 2\n    }\n  ]\n}"
+        },
+        "url": "{{baseUrl}}/api/orders"
+      }
+    },
+    {
+      "name": "Get Created Order By Id",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "if (!pm.collectionVariables.get(\"orderId\")) {",
+              "  throw new Error(\"Run 'Create Order' first\");",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "const data = pm.response.json();",
+              "pm.test(\"Fetched order matches orderId\", function () {",
+              "  pm.expect(data.id).to.eql(pm.collectionVariables.get(\"orderId\"));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/orders/{{orderId}}"
+      }
+    },
+    {
+      "name": "Update Order Status",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "if (!pm.collectionVariables.get(\"orderId\")) {",
+              "  throw new Error(\"Run 'Create Order' first\");",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "const data = pm.response.json();",
+              "pm.test(\"Status changed to SHIPPED\", function () {",
+              "  pm.expect(data.status).to.eql(\"SHIPPED\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"SHIPPED\"\n}"
+        },
+        "url": "{{baseUrl}}/api/orders/{{orderId}}"
+      }
+    },
+    {
+      "name": "Create Product - Validation Error (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 400\", function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "const data = pm.response.json();",
+              "pm.test(\"Validation failed\", function () {",
+              "  pm.expect(data.message).to.eql(\"Validation failed\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Bad Product\",\n  \"price\": 0\n}"
+        },
+        "url": "{{baseUrl}}/api/products"
+      }
+    },
+    {
+      "name": "Create Order - Conflict Error (409)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 409\", function () {",
+              "  pm.response.to.have.status(409);",
+              "});",
+              "const data = pm.response.json();",
+              "pm.test(\"Conflict returned\", function () {",
+              "  pm.expect(data.error).to.eql(\"Conflict\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{conflictProductId}}\",\n      \"quantity\": 100\n    }\n  ]\n}"
+        },
+        "url": "{{baseUrl}}/api/orders"
+      }
     }
   ]
 }
